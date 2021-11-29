@@ -1,0 +1,24 @@
+#!/usr/bin/python
+import pronouncing
+
+# execute gcc with subprocess
+
+# get output
+
+# for each line of the output, get the last word
+# (or a equivalent word, if there isn't rhymes avaliable)
+
+# for each word, get a rhyme at random from the database
+
+# print formatted rhymes
+# something like
+#
+# Wishing me like to one more rich in hope,
+# ‘number_of_args_mismatch’ was not declared in this scope
+# (line 15, col 1)
+#
+# By unions married, do offend thine ear,
+# ‘char many_chars’ previously declared here
+# (line 32, col 23)
+
+# proft

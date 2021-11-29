@@ -1,8 +1,31 @@
 #!/usr/bin/python
 import pronouncing
+import subprocess
+import sys
+import json
 
 # execute gcc with subprocess
+# TODO: maybe use some parser instead of json, as it is only avaliable in newer versions of gcc.
 
+text_format = "-fdiagnostics-format=text"
+json_format = "-fdiagnostics-format=json"
+
+gcc_arglist_dirty = ["g++"] + sys.argv[1:]
+gcc_arglist = [x for x in gcc_arglist_dirty if x != text_format and x != json_format]
+gcc_arglist.append(json_format)
+
+gcc_output = subprocess.run(gcc_arglist, capture_output=True)
+error_log = gcc_output.stderr.decode().split('\n')[0]
+print(error_log)
+json.loads(error_log)
+
+'''
+try:
+	json.loads(error_log)
+except:
+	print("json was not correctly loaded.")
+	exit()
+'''
 # get output
 
 # for each line of the output, get the last word
@@ -21,4 +44,4 @@ import pronouncing
 # ‘char many_chars’ previously declared here
 # (line 32, col 23)
 
-# proft
+# profit

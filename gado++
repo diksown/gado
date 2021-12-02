@@ -3,35 +3,57 @@ import pronouncing
 import subprocess
 import sys
 import json
+import random
 
-# execute gcc with subprocess
+# execute gcc with subprocess and get output
 # TODO: maybe use some parser instead of json, as it is only avaliable in newer versions of gcc.
+def get_gcc_output():
+	text_format = "-fdiagnostics-format=text"
+	json_format = "-fdiagnostics-format=json"
 
-text_format = "-fdiagnostics-format=text"
-json_format = "-fdiagnostics-format=json"
+	gcc_arglist_dirty = ["g++"] + sys.argv[1:]
+	gcc_arglist = [x for x in gcc_arglist_dirty if x != text_format and x != json_format]
+	gcc_arglist.append(json_format)
 
-gcc_arglist_dirty = ["g++"] + sys.argv[1:]
-gcc_arglist = [x for x in gcc_arglist_dirty if x != text_format and x != json_format]
-gcc_arglist.append(json_format)
-
-gcc_output = subprocess.run(gcc_arglist, capture_output=True)
-error_log = gcc_output.stderr.decode().split('\n')[0]
-print(error_log)
-json.loads(error_log)
-
-'''
-try:
-	json.loads(error_log)
-except:
-	print("json was not correctly loaded.")
-	exit()
-'''
-# get output
+	gcc_output = subprocess.run(gcc_arglist, capture_output=True)
+	error_log = gcc_output.stderr.decode().split('\n')[0]
+	
+	try:
+		error_log_dict = json.loads(error_log)
+	except:
+		raise ValueError("Error log is not in json format")
+	
+	error_messages = []
+	for gcc_error in error_log_dict:
+		formatted_error = [gcc_error["message"]] # add caret, type, etc
+		error_messages.append(formatted_error)
+	return error_messages
+	
 
 # for each line of the output, get the last word
 # (or a equivalent word, if there isn't rhymes avaliable)
+def last_word(line):
+	only_alphanum = re.sub("[^0-9a-zA-Z]+", " ", line)
+	only_alphanum_lower = only_alphanum.lower()
+	only_alphanum_list = only_alphanum_lower.split()
+	return only_alphanum_list[-1]
+
+# open the database and get the rhyme for each word
+def get_poetry():
+	with open('data/poetry.json') as poetry_db:
+		return json.load(poetry_db)
 
 # for each word, get a rhyme at random from the database
+def get_rhyme(word, poetry_db):
+	word_rhymes = pronouncing.rhymes(word)
+	verse_rhymes = []
+	for word_rhyme in word_rhymes:
+		if word_rhyme in poetry_db:
+			verse_rhymes.append(poetry_db[word_rhyme])
+	if len(verse_rhymes) != 0:
+		return random.choice(verse_rhymes)
+	else:
+		return "rhyme not found :("
 
 # print formatted rhymes
 # something like
@@ -45,3 +67,9 @@ except:
 # (line 32, col 23)
 
 # profit
+
+if __name__ == "__main__":
+	gcc_output = get_gcc_output()
+	poetry_db = get_poetry_db()
+	for line in gcc_output:
+		get_rhyme(last_word(line), poetry_db)

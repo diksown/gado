@@ -5,16 +5,28 @@ import sys
 import json
 import random
 import re
+import sys
+
+def get_compiler():
+	program_name = sys.argv[0]
+	if "gado++" in program_name:
+		compiler_name = "g++"
+	elif "gado" in program_name:
+		compiler_name = "gcc"
+	else:
+		# TODO: treat errors better
+		print("error: program name not recognized")
+		sys.exit(1)
+	return compiler_name
 
 # execute gcc with subprocess and get output
-# TODO: maybe use some parser instead of json, as it is only avaliable in newer versions of gcc.
 def get_gcc_output():
 	text_format = "-fdiagnostics-format=text"
 	json_format = "-fdiagnostics-format=json"
-
-	gcc_arglist_dirty = ["g++"] + sys.argv[1:]
-	gcc_arglist = [x for x in gcc_arglist_dirty if x != text_format and x != json_format]
-	gcc_arglist.append(json_format)
+	compiler_name = get_compiler()
+	
+	# TODO: maybe use some parser instead of json, as it is only avaliable in newer versions of gcc.
+	gcc_arglist = [compiler_name] + sys.argv[1:] + [json_format]
 
 	gcc_output = subprocess.run(gcc_arglist, capture_output=True)
 	error_log = gcc_output.stderr.decode().split('\n')[0]
@@ -22,7 +34,7 @@ def get_gcc_output():
 	try:
 		error_log_dict = json.loads(error_log)
 	except:
-		raise ValueError("Error log is not in json format")
+		raise ValueError("error: log is not in json format")
 	
 	error_messages = []
 	for gcc_error in error_log_dict:
@@ -66,17 +78,12 @@ def get_rhyme(word, poetry_db):
 # By unions married, do offend thine ear,
 # ‘char many_chars’ previously declared here
 # (line 32, col 23)
-
-# profit
-
 if __name__ == "__main__":
 	gcc_output = get_gcc_output()
 	poetry_db = get_poetry_db()
 	for gcc_error in gcc_output:
 		error_message = gcc_error[0]
 		rhyming_with_error = get_rhyme(last_word(error_message), poetry_db)
-		if rhyming_with_error == "rhyme not found :(":
-			continue
 		print(rhyming_with_error)
 		print(error_message)
 		print()

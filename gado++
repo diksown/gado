@@ -4,6 +4,7 @@ import subprocess
 import sys
 import json
 import random
+import re
 
 # execute gcc with subprocess and get output
 # TODO: maybe use some parser instead of json, as it is only avaliable in newer versions of gcc.
@@ -25,8 +26,8 @@ def get_gcc_output():
 	
 	error_messages = []
 	for gcc_error in error_log_dict:
-		formatted_error = [gcc_error["message"]] # add caret, type, etc
-		error_messages.append(formatted_error)
+		formatted_error = gcc_error["message"]
+		error_messages.append([formatted_error])
 	return error_messages
 	
 
@@ -39,7 +40,7 @@ def last_word(line):
 	return only_alphanum_list[-1]
 
 # open the database and get the rhyme for each word
-def get_poetry():
+def get_poetry_db():
 	with open('data/poetry.json') as poetry_db:
 		return json.load(poetry_db)
 
@@ -49,7 +50,7 @@ def get_rhyme(word, poetry_db):
 	verse_rhymes = []
 	for word_rhyme in word_rhymes:
 		if word_rhyme in poetry_db:
-			verse_rhymes.append(poetry_db[word_rhyme])
+			verse_rhymes.extend(poetry_db[word_rhyme])
 	if len(verse_rhymes) != 0:
 		return random.choice(verse_rhymes)
 	else:
@@ -71,5 +72,11 @@ def get_rhyme(word, poetry_db):
 if __name__ == "__main__":
 	gcc_output = get_gcc_output()
 	poetry_db = get_poetry_db()
-	for line in gcc_output:
-		get_rhyme(last_word(line), poetry_db)
+	for gcc_error in gcc_output:
+		error_message = gcc_error[0]
+		rhyming_with_error = get_rhyme(last_word(error_message), poetry_db)
+		if rhyming_with_error == "rhyme not found :(":
+			continue
+		print(rhyming_with_error)
+		print(error_message)
+		print()

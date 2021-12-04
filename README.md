@@ -4,14 +4,15 @@
 
 ## Usage
 
-After installing, you will have gado and gado++. You can use them as you would do with gcc/g++.
+After installing, you will be able to call gado and gado++. You can use them just like gcc/g++!
 
 Type `gado --help` for more info.
 
 Examples:
+
 ```
-gado++ main.cpp -o main
-gado main.c -o main
+gado source.c -Wall -o output_executable
+gado++ source.cpp -Wall -o output_executable
 ```
 
 **TODO:** Put some images
@@ -19,6 +20,8 @@ gado main.c -o main
 ## Installing
 
 You need GCC 9, Python3 and pip in order to install gado.
+
+To intall:
 
 ```
 git clone https://github.com/diksown/gado

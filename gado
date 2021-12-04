@@ -70,8 +70,8 @@ def last_word(line):
 
 # open the database and get the rhyme for each word
 def get_poetry_db():
-	# with open('usr/share/gado/poetry.json') as f:
-	with open('data/poetry.json') as poetry_db:
+	with open('/usr/share/gado/data/poetry.json') as poetry_db:
+	# with open('data/poetry.json') as poetry_db:
 		return json.load(poetry_db)
 
 # for each word, get a rhyme at random from the database

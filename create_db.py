@@ -18,11 +18,11 @@ def last_word(line):
 
 dict_poetry_db = {}
 
-with open('data/shakespeare.txt') as poetry_data:
+with open('/usr/share/gado/data/shakespeare.txt') as poetry_data:
 	for line in poetry_data.readlines():
 		line = line.strip()
 		if valid_line(line):
 			representative_word = last_word(line)
 			dict_poetry_db.setdefault(representative_word, []).append(line)
 
-json.dump(dict_poetry_db, open('data/poetry.json', 'w'), indent=2)
+json.dump(dict_poetry_db, open('/usr/share/gado/data/poetry.json', 'w'), indent=2)

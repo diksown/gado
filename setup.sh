@@ -5,20 +5,34 @@ check_if_sudo() {
 	fi
 }
 
+command_exists() {
+	command -v "$1" >/dev/null 2>&1 || {
+		echo $1 "is not installed. please install it first."
+		exit 1
+	} 
+}
+
 install_gado() {
+	command_exists gcc
+	command_exists pip
 	cp gado /usr/bin/
 	ln -s /usr/bin/gado /usr/bin/gado++
+
 	# TODO: replace this for something better (requirements.txt or smth)
 	pip install -q pronouncing
-	mkdir /usr/share/gado
-	cp data/poetry.json /usr/share/gado/
+	
+	mkdir -p /usr/share/gado/data
+	echo "downloading poetry database..."
+	curl --progress-bar https://www.gutenberg.org/files/100/100-0.txt --output /usr/share/gado/data/shakespeare.txt
+	python create_db.py
 }
 
 uninstall_gado() {
-	# TODO: maybe remove pronouncing?
 	rm /usr/bin/gado
 	rm /usr/bin/gado++
 	rm -r /usr/share/gado
+
+	# TODO: should you really remove pronouncing?
 	pip uninstall -qy pronouncing
 }
 

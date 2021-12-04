@@ -1,6 +1,3 @@
-// This file has a lot of intentional errors to test the program.
-#include <bits/stdc++.h>
-
 // #include <missing_bracket_and_file // fatal error
 #define weird_macro(x, y) 1
 #define some_constant 1
@@ -16,7 +13,6 @@ int main() {
 	1 = "hello";
 	weird_macro(1, 2, 3);
 	weird_macro(1);
-	char many_chars = 'many';
 	int *pointer_sum_1, *pointer_sum_2;
 	pointer_sum_1 = pointer_sum_1 + pointer_sum_2;
 	void int some_pointer;

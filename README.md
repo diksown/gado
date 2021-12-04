@@ -18,7 +18,7 @@ gado main.c -o main
 
 ## Installing
 
-You need GCC 9 and Python 3 in order to install gado.
+You need GCC 9, Python3 and pip in order to install gado.
 
 ```
 git clone https://github.com/diksown/gado

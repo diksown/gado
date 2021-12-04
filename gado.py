@@ -61,7 +61,6 @@ def get_gcc_output():
 	
 
 # for each line of the output, get the last word
-# (or a equivalent word, if there isn't rhymes avaliable)
 def last_word(line):
 	only_alphanum = re.sub("[^0-9a-zA-Z]+", " ", line)
 	only_alphanum_lower = only_alphanum.lower()
@@ -71,7 +70,6 @@ def last_word(line):
 # open the database and get the rhyme for each word
 def get_poetry_db():
 	with open('/usr/share/gado/data/poetry.json') as poetry_db:
-	# with open('data/poetry.json') as poetry_db:
 		return json.load(poetry_db)
 
 # for each word, get a rhyme at random from the database

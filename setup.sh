@@ -22,7 +22,7 @@ install_gado() {
 	pip install -q pronouncing
 	
 	mkdir -p /usr/share/gado/data
-	echo "downloading poetry database..."
+	echo "downloading poetry database... (~5.5MB)"
 	curl --progress-bar https://www.gutenberg.org/files/100/100-0.txt --output /usr/share/gado/data/shakespeare.txt
 	python create_db.py
 }

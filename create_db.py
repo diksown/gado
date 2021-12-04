@@ -9,7 +9,6 @@ def valid_line(line):
 		return False
 	return True
 
-# todo: duplicated code (gado++)
 def last_word(line):
 	only_alphanum = re.sub("[^0-9a-zA-Z]+", " ", line)
 	only_alphanum_lower = only_alphanum.lower()
@@ -18,6 +17,7 @@ def last_word(line):
 
 dict_poetry_db = {}
 
+# TODO: improve these hardcoded paths
 with open('/usr/share/gado/data/shakespeare.txt') as poetry_data:
 	for line in poetry_data.readlines():
 		line = line.strip()

@@ -6,8 +6,6 @@
 
 After installing, you will be able to call gado and gado++. You can use them just like gcc/g++!
 
-Type `gado --help` for more info.
-
 Examples:
 
 ```
@@ -17,13 +15,15 @@ gado++ source.cpp -Wall -o output_executable
 
 **Tip:** There is a `errors.cpp` on the `test` folder. Why don't you try to compile it with `gado++ errors.cpp`?
 
+Type `gado --help` for more info.
+
 **TODO:** Put some images
 
 ## Installing
 
 You need GCC 9, Python3 and pip in order to install gado.
 
-To intall:
+To install:
 
 ```
 git clone https://github.com/diksown/gado

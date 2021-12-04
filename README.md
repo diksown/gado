@@ -15,6 +15,8 @@ gado source.c -Wall -o output_executable
 gado++ source.cpp -Wall -o output_executable
 ```
 
+**Tip:** There is a `errors.cpp` on the `test` folder. Why don't you try to compile it with `gado++ errors.cpp`?
+
 **TODO:** Put some images
 
 ## Installing

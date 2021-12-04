@@ -15,7 +15,7 @@ command_exists() {
 install_gado() {
 	command_exists gcc
 	command_exists pip
-	cp gado /usr/bin/
+	cp gado.py /usr/bin/gado
 	ln -s /usr/bin/gado /usr/bin/gado++
 
 	# TODO: replace this for something better (requirements.txt or smth)

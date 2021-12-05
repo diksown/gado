@@ -72,8 +72,10 @@ def get_poetry_db():
 	with open('/usr/share/gado/data/poetry.json') as poetry_db:
 		return json.load(poetry_db)
 
-# for each word, get a rhyme at random from the database
-def get_rhyme(word, poetry_db):
+# get a rhyme using IPA. better rhyme detection, 
+# but isn't always possible with words that don't 
+# have pronunciations (like fpedantic or int)
+def get_phonetic_rhyme(word, poetry_db):
 	word_rhymes = pronouncing.rhymes(word)
 	verse_rhymes = []
 	for word_rhyme in word_rhymes:
@@ -82,7 +84,37 @@ def get_rhyme(word, poetry_db):
 	if len(verse_rhymes) != 0:
 		return random.choice(verse_rhymes)
 	else:
-		return "rhyme not found :("
+		return None
+
+# define the matching of two words
+def match_words(word1, word2):
+	max_match = 4
+	for i in range(max_match, 0, -1):
+		if word1[-i:] == word2[-i:]:
+			return i
+	return 0
+
+# get a rhyme only comparing the end of the word
+# bad quality, but works for words like fpedantic
+def get_mirror_rhyme(word, poetry_db):
+	# get all keys of poetry_db
+	poetry_db_keys = poetry_db.keys()
+	# get the number of the biggest match
+	max_match = max(map(lambda x: match_words(x, word), poetry_db_keys))
+	possible_rhymes = []
+	for poetry_db_key in poetry_db_keys:
+		if match_words(poetry_db_key, word) == max_match:
+			possible_rhymes.extend(poetry_db[poetry_db_key])
+	return random.choice(possible_rhymes)
+
+
+# for each word, get a rhyme at random from the database
+def get_rhyme(word, poetry_db):
+	rhyme = get_phonetic_rhyme(word, poetry_db)
+	if rhyme is not None:
+		return rhyme
+	else:
+		return get_mirror_rhyme(word, poetry_db)
 
 # print formatted rhymes
 if __name__ == "__main__":

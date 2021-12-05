@@ -2,13 +2,13 @@
 <h1 align="center">gado</h1>
 <p align="center">make poetry with gcc diagnostics</p>
 
-### 🪶 About 
+## 🪶 About 
 
 **gado** (**g**cc **a**wesome **d**iagnostics **o**rchestrator) is a wrapper of gcc that outputs its errors and warnings in a more poetic format.
 
 It currently takes rhymes from a database of all Shakespeare's works.
 
-### 🔎 Usage 
+## 🔎 Usage 
 
 After installing, you will be able to call `gado` and `gado++`. You can use them just like `gcc/g++`!
 
@@ -23,11 +23,11 @@ gado++ source.cpp -Wall -o output_executable
 
 Type `gado --help` for more info.
 
-### 📝 Requirements
+## 📝 Requirements
 
 You need gcc 9, python3 and pip in order to install gado.
 
-### ⬇️ Installing
+## ⬇️ Installing
 
 ```
 git clone https://github.com/diksown/gado
@@ -35,6 +35,6 @@ cd gado
 sudo ./setup.sh install
 ```
 
-### 🤝 Contributing
+## 🤝 Contributing
 
 **gado** is open source. You are more than welcome to [help on it](https://github.com/diksown/gado/issues)!

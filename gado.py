@@ -107,7 +107,6 @@ def get_mirror_rhyme(word, poetry_db):
 			possible_rhymes.extend(poetry_db[poetry_db_key])
 	return random.choice(possible_rhymes)
 
-
 # for each word, get a rhyme at random from the database
 def get_rhyme(word, poetry_db):
 	rhyme = get_phonetic_rhyme(word, poetry_db)

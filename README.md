@@ -1,10 +1,11 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/49994083/144731656-29900b63-7824-4077-b109-9a771af67e38.png" width="500px"></p>
-<h1 align="center">🪶 gado</h1>
+<h1 align="center">gado</h1>
 <p align="center">make poetry with gcc diagnostics</p>
 
-### ℹ️ About 
+### 🪶 About 
 
 **gado** (**g**cc **a**wesome **d**iagnostics **o**rchestrator) is a wrapper of gcc that outputs its errors and warnings in a more poetic format.
+
 It currently takes rhymes from a database of all Shakespeare's works.
 
 ### 🔎 Usage 

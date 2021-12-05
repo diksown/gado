@@ -3,7 +3,7 @@ import json
 import re
 
 def valid_line(line):
-	if len(line) < 25 or len(line) > 65: # too short or too long lines
+	if len(line) < 30 or len(line) > 65: # too short or too long lines
 		return False
 	if line.upper() == line: # all caps
 		return False

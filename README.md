@@ -1,6 +1,6 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/49994083/144731656-29900b63-7824-4077-b109-9a771af67e38.png" width="500px"></p>
 <h1 align="center">gado</h1>
-<p align="center">make poetry with gcc diagnostics</p>
+<p align="center">generate poetry with gcc diagnostics</p>
 
 ## 🪶 About 
 

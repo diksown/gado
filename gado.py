@@ -62,7 +62,7 @@ def get_gcc_output():
 
 # for each line of the output, get the last word
 def last_word(line):
-	only_alphanum = re.sub("[^0-9a-zA-Z]+", " ", line)
+	only_alphanum = re.sub("[^a-zA-Z]+", " ", line)
 	only_alphanum_lower = only_alphanum.lower()
 	only_alphanum_list = only_alphanum_lower.split()
 	return only_alphanum_list[-1]
@@ -89,7 +89,8 @@ def get_phonetic_rhyme(word, poetry_db):
 # define the matching of two words
 def match_words(word1, word2):
 	max_match = 4
-	for i in range(max_match, 0, -1):
+	max_match_to_try = min(max_match, len(word1), len(word2))
+	for i in range(max_match_to_try, 0, -1):
 		if word1[-i:] == word2[-i:]:
 			return i
 	return 0

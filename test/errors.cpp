@@ -1,29 +1,33 @@
-// #include <missing_bracket_and_file // fatal error
-#define weird_macro(x, y) 1
-#define some_constant 1
-#define some_constant 2
+// This is a .cpp test file that is intended 
+// to have a lot of errors when compiling.
+#include <utility>
+#include <set>
+#include <map>
 
-void void_with_a_value(){
+#define MACRO_ONE(x, y) 1
+#define TOTAL_NUMBER_OF_USERS 2
+#define TOTAL_NUMBER_OF_USERS 3
+
+void theAnswerToEverything(){
    return 42;
 }
 
 int main() {
-	char i = 'eye';
+	pair<int, int> p;
+	std::set<char>;
+	std::map<<>>;
+	std::set::set<int> notDuplicated;
+	char e = 'e'+256;
 	alignof(void);
-	1 = "hello";
-	weird_macro(1, 2, 3);
-	weird_macro(1);
-	int *pointer_sum_1, *pointer_sum_2;
-	pointer_sum_1 = pointer_sum_1 + pointer_sum_2;
-	void int some_pointer;
-	int small_array[-1];
-	int weird_size[];
-	time_passed = 0;
-	int big_number = 1/0;
-	long long really_long = "hey!";
+	int *pointerToNumber, *anotherPointerToNumber;
+	pointerToNumber = pointerToNumber + anotherPointerToNumber;
+	void int *database;
+	int usernameList[-1];
+	int birthday[];
+	timePassed = 0;
+	int bigNumber = 1/0;
+	float welcomeMessage = "hey!";
 	double trouble
 	int integrality;
-	int missing_closing_stuff = (1+1;
-	int does_this_compile = (1+1);
-	pair<> d;
+	int missingClosingStuff = (1+1;
 }

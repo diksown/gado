@@ -10,7 +10,7 @@ def valid_line(line):
 	return True
 
 def last_word(line):
-	only_alphanum = re.sub("[^0-9a-zA-Z]+", " ", line)
+	only_alphanum = re.sub("[^a-zA-Z]+", " ", line)
 	only_alphanum_lower = only_alphanum.lower()
 	only_alphanum_list = only_alphanum_lower.split()
 	return only_alphanum_list[-1]

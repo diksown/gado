@@ -12,7 +12,7 @@ I know I love in vain, strive against hope;
 
 After installing, you will be able to call `gado` and `gado++`. You can use them just like `gcc/g++`!
 
-#### Examples:
+**Examples:**
 
 ```
 gado source.c -Wall -o output_executable

@@ -24,11 +24,17 @@ gado++ source.cpp -Wall -o output_executable
 Type `gado --help` for more info.
 
 ### 📝 Requirements
+
 You need gcc 9, python3 and pip in order to install gado.
 
 ### ⬇️ Installing
+
 ```
 git clone https://github.com/diksown/gado
 cd gado
 sudo ./setup.sh install
 ```
+
+### 🤝 Contributing
+
+**gado** is open source. You are more than welcome to [help on it](https://github.com/diksown/gado/issues)!

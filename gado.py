@@ -36,6 +36,11 @@ def get_compiler():
 		sys.exit(1)
 	return compiler_name
 
+# def parse_gcc_output(error_log_dict):
+	# recursively parse error messages, getting line and column numbers.
+	# something like a dfs.
+	# return lines and columns if they exist.
+
 # execute gcc with subprocess and get output
 def get_gcc_output():
 	json_format = "-fdiagnostics-format=json"

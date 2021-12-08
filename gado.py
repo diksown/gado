@@ -18,15 +18,17 @@ def should_display_help():
 
 
 def display_help():
-    print('gado - generate poetry using gcc!')
-    print()
-    print('usage: gado [options] [file] or gado++ [options] [file]')
-    print()
-    print('tip: you can use gado/gado++ just like gcc/g++!')
-    print()
-    print('example: gado++ source.cpp -Wall -o output_executable')
-    print()
-    print('see https://github.com/diksown/gado for more info')
+    message = '''gado - generate poetry using gcc!
+
+    usage: gado [options] [file] or gado++ [options] [file]
+
+    tip: you can use gado/gado++ just like gcc/g++!
+
+    example: gado++ source.cpp -Wall -o output_executable
+
+    see https://github.com/diksown/gado for more info
+    '''
+    print(message)
 
 
 def get_compiler():
@@ -44,8 +46,8 @@ def get_compiler():
 
 def parse_gcc_error(error_log_dict):
     '''recursively parse error messages, getting line and column numbers.
-    something like a dfs.
-    return lines and columns if they exist.'''
+
+    something like a dfs. return lines and columns if they exist.'''
     messages = []
 
     # TODO: When adding support to file names, adding 'note'
@@ -139,7 +141,7 @@ def match_words(word1, word2):
 
 
 def get_mirror_rhyme(word, poetry_db):
-    '''get a rhyme only comparing the end of the word
+    '''get a rhyme only comparing the end of the word.
     bad quality, but works for words like fpedantic'''
     poetry_db_keys = poetry_db.keys()
     # get the number of the biggest match
@@ -173,7 +175,7 @@ def color_it(message, color):
 
 
 def formatted_info(gcc_error):
-    '''format the info of a gcc message
+    '''format the info of a gcc message.
     if an error occurs on line 1, column 3, it will
     be formatted as (1, 3) in red'''
 

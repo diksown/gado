@@ -7,43 +7,73 @@ import random
 import re
 import sys
 
+POETRY_LOCATION = '/usr/share/gado/data/poetry.json'
+
 def should_display_help():
-	if len(sys.argv) == 1 or sys.argv[1] == "--help":
+	if len(sys.argv) == 1 or sys.argv[1] == '--help':
 		return True
 	else:
 		return False
 
 def display_help():
-	print("gado - generate poetry using gcc!")
+	print('gado - generate poetry using gcc!')
 	print()
-	print("usage: gado [options] [file] or gado++ [options] [file]")
+	print('usage: gado [options] [file] or gado++ [options] [file]')
 	print()
-	print("tip: you can use gado/gado++ just like gcc/g++!")
+	print('tip: you can use gado/gado++ just like gcc/g++!')
 	print()
-	print("example: gado++ source.cpp -Wall -o output_executable")
+	print('example: gado++ source.cpp -Wall -o output_executable')
 	print()
-	print("see https://github.com/diksown/gado for more info")
+	print('see https://github.com/diksown/gado for more info')
 
 def get_compiler():
 	program_name = sys.argv[0]
-	if "gado++" in program_name:
-		compiler_name = "g++"
-	elif "gado" in program_name:
-		compiler_name = "gcc"
+	if 'gado++' in program_name:
+		compiler_name = 'g++'
+	elif 'gado' in program_name:
+		compiler_name = 'gcc'
 	else:
 		# TODO: treat errors better
-		print("error: program name not recognized")
+		print('error: program name not recognized')
 		sys.exit(1)
 	return compiler_name
 
-# def parse_gcc_output(error_log_dict):
-	# recursively parse error messages, getting line and column numbers.
-	# something like a dfs.
-	# return lines and columns if they exist.
+# recursively parse error messages, getting line and column numbers.
+# something like a dfs.
+# return lines and columns if they exist.
+def parse_gcc_error(error_log_dict):
+	messages = []
+
+	# TODO: When adding support to file names, adding 'note' 
+	# to relevant_kinds will be useful. for now, notes are
+	# kind of confusing.
+	relevant_kinds = ['error', 'warning', 'fatal error']
+
+	if error_log_dict['kind'] in relevant_kinds:
+		gcc_error = {}
+		gcc_error['message'] = error_log_dict['message']
+		gcc_error['kind'] = error_log_dict['kind']
+		locations = error_log_dict['locations']
+		if len(locations) != 0:
+			gcc_error['line'] = locations[0]['caret']['line']
+			gcc_error['column'] = locations[0]['caret']['column']
+			messages.append(gcc_error)
+	if 'children' in error_log_dict:
+		for child in error_log_dict['children']:
+			child_messages = parse_gcc_error(child)
+			messages.extend(child_messages)
+	return messages
+
+# calls the recursive function for each element of the array
+def parse_all_gcc_errors(error_logs):
+	messages = []
+	for error_log in error_logs:
+		messages.extend(parse_gcc_error(error_log))
+	return messages
 
 # execute gcc with subprocess and get output
 def get_gcc_output():
-	json_format = "-fdiagnostics-format=json"
+	json_format = '-fdiagnostics-format=json'
 	compiler_name = get_compiler()
 	
 	# TODO: maybe use some parser instead of this
@@ -55,26 +85,24 @@ def get_gcc_output():
 	try:
 		error_log_dict = json.loads(error_log)
 	except:
-		print("error: log is not in json format")
+		print('error: log is not in json format')
 		sys.exit(1)
 	
-	error_messages = []
-	for gcc_error in error_log_dict:
-		formatted_error = gcc_error["message"]
-		error_messages.append([formatted_error])
+	error_messages = parse_all_gcc_errors(error_log_dict)
+
 	return error_messages
 	
 
 # for each line of the output, get the last word
 def last_word(line):
-	only_alphanum = re.sub("[^a-zA-Z]+", " ", line)
+	only_alphanum = re.sub('[^a-zA-Z]+', ' ', line)
 	only_alphanum_lower = only_alphanum.lower()
 	only_alphanum_list = only_alphanum_lower.split()
 	return only_alphanum_list[-1]
 
 # open the database and get the rhyme for each word
 def get_poetry_db():
-	with open('/usr/share/gado/data/poetry.json') as poetry_db:
+	with open(POETRY_LOCATION) as poetry_db:
 		return json.load(poetry_db)
 
 # get a rhyme using IPA. better rhyme detection, 
@@ -121,17 +149,55 @@ def get_rhyme(word, poetry_db):
 	else:
 		return get_mirror_rhyme(word, poetry_db)
 
+def color_it(message, color):
+	colors = {
+		'RED': '\u001b[31m',
+		'LIGHT_RED': '\u001b[31;1m',
+		'MAGENTA' : '\u001b[35m',
+		'YELLOW': '\u001b[33m',
+		'RESET': '\u001b[0m'
+	}
+	return colors[color] + message + colors['RESET']
+
+
+def formatted_info(gcc_error):
+	info = ''
+	info += '('
+	if 'line' in gcc_error:
+		info += str(gcc_error['line'])
+	if 'column' in gcc_error and gcc_error['column'] != -1:
+		info += ':' + str(gcc_error['column'])
+	info += ')'
+	kind = gcc_error['kind']
+	if kind == 'error' or kind == 'fatal_error':
+		return color_it(info, 'RED')
+	elif kind == 'warning':
+		return color_it(info, 'MAGENTA')
+	elif kind == 'note':
+		return color_it(info, 'YELLOW')
+	else:
+		return info
+
+def display_poetry(gcc_output, poetry_db):
+	flag_enter = False
+	for gcc_error in gcc_output:
+		if flag_enter:
+			print()
+		else:
+			flag_enter = True
+		error_message = gcc_error['message']
+		rhyme_with_error = get_rhyme(last_word(error_message), poetry_db)
+		info = formatted_info(gcc_error)
+		print(info)
+		print(rhyme_with_error)
+		print(error_message)
+
 # print formatted rhymes
-if __name__ == "__main__":
+if __name__ == '__main__':
 	if should_display_help():
 		display_help()
 		sys.exit(0)
 
 	gcc_output = get_gcc_output()
 	poetry_db = get_poetry_db()
-	for gcc_error in gcc_output:
-		error_message = gcc_error[0]
-		rhyming_with_error = get_rhyme(last_word(error_message), poetry_db)
-		print(rhyming_with_error)
-		print(error_message)
-		print()
+	display_poetry(gcc_output, poetry_db)

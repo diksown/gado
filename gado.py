@@ -61,7 +61,8 @@ def parse_gcc_error(error_log_dict):
         if len(locations) != 0:
             gcc_error['line'] = locations[0]['caret']['line']
             gcc_error['column'] = locations[0]['caret']['column']
-            messages.append(gcc_error)
+        messages.append(gcc_error)
+
     if 'children' in error_log_dict:
         for child in error_log_dict['children']:
             child_messages = parse_gcc_error(child)
@@ -90,11 +91,10 @@ def get_gcc_output():
 
     try:
         error_log_dict = json.loads(error_log)
+        error_messages = parse_all_gcc_errors(error_log_dict)
     except:
-        print('error: log is not in json format')
-        sys.exit(1)
-
-    error_messages = parse_all_gcc_errors(error_log_dict)
+        # TODO: this is kinda hardcoded
+        error_messages = [{"message": error_log, "kind": "error"}]
 
     return error_messages
 
@@ -177,17 +177,19 @@ def formatted_info(gcc_error):
     if an error occurs on line 1, column 3, it will
     be formatted as (1, 3) in red'''
 
+    kind = gcc_error['kind']
+
     info = ''
     info += '('
     if 'line' in gcc_error:
-        info += str(gcc_error['line'])
+        info += str(gcc_error['line']) + ':'
     if 'column' in gcc_error and gcc_error['column'] != -1:
-        info += ':' + str(gcc_error['column'])
+        info += str(gcc_error['column']) + ':'
+    info += ' '
+    info += kind
     info += ')'
 
-    kind = gcc_error['kind']
-
-    if kind == 'error' or kind == 'fatal_error':
+    if kind == 'error' or kind == 'fatal error':
         return color_it(info, 'RED')
     elif kind == 'warning':
         return color_it(info, 'MAGENTA')
@@ -208,9 +210,10 @@ def display_poetry(gcc_output, poetry_db):
         error_message = gcc_error['message']
         rhyme_with_error = get_rhyme(last_word(error_message), poetry_db)
         info = formatted_info(gcc_error)
-        print(info)
+
         print(rhyme_with_error)
         print(error_message)
+        print(info)
 
 
 def main():
@@ -225,6 +228,5 @@ def main():
     display_poetry(gcc_output, poetry_db)
 
 
-'''if the script is called directly, call the main function'''
 if __name__ == '__main__':
     main()

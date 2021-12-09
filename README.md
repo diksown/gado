@@ -20,20 +20,32 @@ gado source.c -Wall -o output_executable
 gado++ source.cpp -Wall -o output_executable
 ```
 
-**💡 Tip:** There is a `errors.cpp` on the `test` folder. Why don't you try to compile it with `gado++ errors.cpp`?
+**💡 Tip:** There is a `errors.c` on the `test` folder. Why don't you try to compile it with `gado errors.c`?
 
 Type `gado --help` for more info.
 
 ## 📝 Requirements
 
-You need gcc >=9, python3 and pip in order to install gado.
+You need gcc>=9, python3 and pip in order to install gado.
 
 ## ⬇️ Installing
 
+🚧 **gado isn't uploaded to pip yet. you have to build from source.**
+
+### PyPI
+
+As gado is written in python, this installation is recommended.
+```
+pip install gado
+```
+
+### Manual
+
+You can manually install gado by cloning this repository and installing locally with pip.
 ```
 git clone https://github.com/diksown/gado
 cd gado
-sudo ./setup.sh install
+pip install -e .
 ```
 
 ## 🤝 Contributing

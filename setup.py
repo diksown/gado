@@ -13,7 +13,7 @@ setup(
     install_requires=[
         'pronouncing',
         'requests',
-        'xdg',
+        'pyxdg',
     ],
     entry_points={
         'console_scripts': [

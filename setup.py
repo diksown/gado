@@ -13,5 +13,12 @@ setup(
     install_requires=[
         'pronouncing',
         'requests',
+        'xdg',
     ],
+    entry_points={
+        'console_scripts': [
+            'gado = gado:main',
+            'gado++ = gado:main',
+        ],
+    },
 )

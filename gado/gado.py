@@ -260,6 +260,7 @@ def download_poetry():
     # TODO: display a progress bar
     # TODO: try except for the download
 
+    print("downloading poetry. this will only happen once (~5.5MB)")
     poetry_data_req = requests.get(DATABASE_URL)
     poetry_data = poetry_data_req.content.decode()
     dict_poetry_db = process_poetry_database(poetry_data)
@@ -270,7 +271,6 @@ def check_for_database():
     '''check if the poetry database exists'''
     # TODO: improve this!
     if not os.path.isfile(POETRY_LOCATION):
-        print("downloading poetry. this will only happen once")
         os.makedirs(GADO_CACHE, exist_ok=True)
         download_poetry()
 

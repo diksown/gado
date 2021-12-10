@@ -1,19 +1,18 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
     name='gado',
-    version='0.0.3',
+    version='0.0.4',
     license='MIT',
     author="Dikson Santos",
     author_email='diksonfer@gmail.com',
     description="generate poetry with gcc diagnostics",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=find_packages('gado'),
-    package_dir={'': 'gado'},
+    packages=['gado'],
     url='https://github.com/diksown/gado',
     keywords='gcc poetry nlp',
     install_requires=[
@@ -23,8 +22,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'gado = gado:main',
-            'gado++ = gado:main',
+            'gado = gado.gado:main',
+            'gado++ = gado.gado:main',
         ],
     },
     classifiers=(

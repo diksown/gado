@@ -1,7 +1,13 @@
+
+
 <p align="center"><img src="https://user-images.githubusercontent.com/49994083/144793848-685e313b-1e61-4c60-8baf-3b59574f2706.png"></p>
 
 <h1 align="center">gado</h1>
-<p align="center">generate poetry with gcc diagnostics</p>
+<p align="center">
+  generate poetry with gcc diagnostics
+  <br>
+  <b>🚧 In development - Testing is appreciated! 🚧</b>
+</p>
 
 ## 🖋️ About 
 

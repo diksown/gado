@@ -41,7 +41,7 @@ You need gcc>=9, python3 and pip in order to install gado.
 As gado is written in python, installation by pip is recommended.
 
 ```
-pip install gado
+sudo pip install gado
 ```
 
 ### Manual
@@ -51,7 +51,7 @@ You can manually install gado by cloning this repository and running `setup.py`.
 ```
 git clone https://github.com/diksown/gado
 cd gado
-python setup.py install --force
+sudo python setup.py install
 ```
 
 ## 🤝 Contributing

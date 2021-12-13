@@ -19,16 +19,17 @@ It currently takes rhymes from a database of all Shakespeare's works.
 
 After installing, you will be able to call `gado` and `gado++`. You can use them just like `gcc/g++`!
 
+Type `gado --help` for more info.
+
 **Examples:**
 
 ```
-gado source.c -Wall -o output_executable
-gado++ source.cpp -Wall -o output_executable
+gado source.c -o executable
+gado++ source.cpp -o executable
 ```
 
-**💡 Tip:** There are `C/C++` source files in the `examples`. Why don't you try to compile them (with `gado errors.c` or `gado++ errors.cpp`)?
+**💡 Tip:** There are `C/C++` source files in the `examples` folder. Why don't you try to compile them (with `gado errors.c` or `gado++ errors.cpp`)?
 
-Type `gado --help` for more info.
 
 ## 📝 Requirements
 

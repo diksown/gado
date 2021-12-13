@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='gado',
-    version='0.0.4',
+    version='0.0.5',
     license='MIT',
     author="Dikson Santos",
     author_email='diksonfer@gmail.com',
@@ -19,6 +19,7 @@ setup(
         'pronouncing',
         'requests',
         'pyxdg',
+        'rich',
     ],
     entry_points={
         'console_scripts': [
@@ -26,10 +27,10 @@ setup(
             'gado++ = gado.gado:main',
         ],
     },
-    classifiers=(
+    classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: Unix",
         "Environment :: Console",
-    ),
+    ],
 )

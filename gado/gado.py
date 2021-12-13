@@ -5,6 +5,8 @@ import random
 import re
 import subprocess
 import sys
+from rich.console import Console
+import inspect
 
 import pronouncing
 import requests
@@ -25,17 +27,27 @@ def should_display_help():
 
 def display_help():
     '''display help message'''
-    message = '''gado - generate poetry using gcc!
+    msg = inspect.cleandoc('''
+        gado - gcc awesome diagnostics orchestrator
 
-    usage: gado [options] [file] or gado++ [options] [file]
+        Compile C/C++ source files with gcc and generate poetry with its diagnostics.
 
-    tip: you can use gado/gado++ just like gcc/g++!
+        Usage:
+            gado [options] [file] 
+              or
+            gado++ [options] [file]
 
-    example: gado++ source.cpp -Wall -o output_executable
+        Tip:
+            Type gado --help to display this message.
+            You can use gado/gado++ just like gcc/g++!
 
-    see https://github.com/diksown/gado for more info
-    '''
-    print(message)
+        Examples:
+            gado main.c -o main
+            gado++ source.cpp -o executable -Wall
+
+        See <https://github.com/diksown/gado> for more info.''')
+
+    print(msg)
 
 
 def get_compiler():
@@ -243,7 +255,10 @@ def process_poetry_database(poetry_data):
     '''receive a raw .txt and process it to a dictionary'''
     dict_poetry_db = {}
 
-    poetry_data_lines = poetry_data.split('\n')
+    poetry_data_lines_raw = poetry_data.split('\n')
+
+    # TODO: this is kinda hardcoded
+    poetry_data_lines = poetry_data_lines_raw[130: -350]
 
     for line in poetry_data_lines:
         line = line.strip()
@@ -260,11 +275,18 @@ def download_poetry():
     # TODO: display a progress bar
     # TODO: try except for the download
 
-    print("downloading poetry. this will only happen once (~5.5MB)")
     poetry_data_req = requests.get(DATABASE_URL)
     poetry_data = poetry_data_req.content.decode()
     dict_poetry_db = process_poetry_database(poetry_data)
     json.dump(dict_poetry_db, open(POETRY_LOCATION, 'w'), indent=2)
+
+
+def animated_download():
+    message = "[bold green]Downloading poetry database... (~5.5MB)\n"
+    message += "[bold blue]This will only be done once."
+
+    with Console().status(message):
+        download_poetry()
 
 
 def check_for_database():
@@ -272,7 +294,7 @@ def check_for_database():
     # TODO: improve this!
     if not os.path.isfile(POETRY_LOCATION):
         os.makedirs(GADO_CACHE, exist_ok=True)
-        download_poetry()
+        animated_download()
 
 
 def main():

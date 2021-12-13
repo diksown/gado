@@ -37,9 +37,9 @@ def display_help():
               or
             gado++ [options] [file]
 
-        Tip:
-            Type gado --help to display this message.
+        Tips:
             You can use gado/gado++ just like gcc/g++!
+            Type gado --help to display this message.
 
         Examples:
             gado main.c -o main

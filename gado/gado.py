@@ -69,10 +69,9 @@ def parse_gcc_error(error_log_dict):
     something like a dfs. return lines and columns if they exist.'''
     messages = []
 
-    # TODO: When adding support to file names, adding 'note'
-    # to relevant_kinds will be useful. for now, notes are
-    # kind of confusing.
-    relevant_kinds = ['error', 'warning', 'fatal error']
+    # 'note' is a valid error type, but its meaning is unclear
+    # when parsed, so we ignore it.
+    relevant_kinds = ['warning', 'error', 'fatal error']
 
     if error_log_dict['kind'] in relevant_kinds:
         gcc_error = {}
@@ -80,8 +79,11 @@ def parse_gcc_error(error_log_dict):
         gcc_error['kind'] = error_log_dict['kind']
         locations = error_log_dict['locations']
         if len(locations) != 0:
-            gcc_error['line'] = locations[0]['caret']['line']
-            gcc_error['column'] = locations[0]['caret']['column']
+            main_location = locations[0]['caret']
+            error_infos = ['line', 'column', 'file']
+            for info in error_infos:
+                if info in main_location:
+                    gcc_error[info] = main_location[info]
         messages.append(gcc_error)
 
     if 'children' in error_log_dict:
@@ -150,7 +152,7 @@ def get_phonetic_rhyme(word, poetry_db):
 
 def match_words(word1, word2):
     '''define the matching of two words'''
-    max_match = 4
+    max_match = 3
     max_match_to_try = min(max_match, len(word1), len(word2))
     for i in range(max_match_to_try, 0, -1):
         if word1[-i:] == word2[-i:]:
@@ -202,6 +204,9 @@ def formatted_info(gcc_error):
     info = ''
     info += '('
     should_add_space = False
+    if 'file' in gcc_error:
+        info += gcc_error['file'] + ':'
+        should_add_space = True
     if 'line' in gcc_error:
         info += str(gcc_error['line']) + ':'
         should_add_space = True

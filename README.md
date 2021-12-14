@@ -1,6 +1,7 @@
 
 
-<p align="center"><img src="https://user-images.githubusercontent.com/49994083/144793848-685e313b-1e61-4c60-8baf-3b59574f2706.png"></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/49994083/146096949-671b2608-664a-4471-ac4b-7f3510ad6bde.png"></p>
+
 
 <h1 align="center">gado</h1>
 <p align="center">
